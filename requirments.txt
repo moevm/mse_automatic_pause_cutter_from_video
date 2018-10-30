@@ -14,4 +14,3 @@ query-string==1.0.2
 request==1.0.2
 requests==2.20.0
 tqdm==4.28.1
-urllib3==1.2
