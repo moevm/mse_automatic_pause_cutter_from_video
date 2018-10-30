@@ -1,5 +1,8 @@
+certifi==2018.10.15
+chardet==3.0.4
 decorator==4.3.0
 get==1.0.3
+idna==2.7
 imageio==2.4.1
 moviepy==0.2.3.5
 numpy==1.15.3
@@ -9,4 +12,6 @@ public==2.0.1
 pydub==0.23.0
 query-string==1.0.2
 request==1.0.2
+requests==2.20.0
 tqdm==4.28.1
+urllib3==1.24
