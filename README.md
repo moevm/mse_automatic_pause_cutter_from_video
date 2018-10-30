@@ -7,7 +7,7 @@
     ```
 2. Перейти в созданное виртуальное пространство (virtualenv)
     ```bash
-    python3 -m virtualenv env
+   source ./env
     ```
 3. Установить необходимые зависимости
     ```bash
