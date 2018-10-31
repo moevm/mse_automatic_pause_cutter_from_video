@@ -11,7 +11,7 @@
     ```
 3. Установить необходимые зависимости
     ```bash
-    pip3 install -r requirements.txt
+    pip3 install -r requirments.txt
     ```
 4. Запустить прогрумму
     ```bash
