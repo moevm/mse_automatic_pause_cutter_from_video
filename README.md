@@ -17,5 +17,18 @@
     ```bash
     python3 main.py
     ```
+    Параметры запуска:
+    1. Обязательные:
+    ```bash
+        -i FILE, --input FILE - путь к исходному файлу
+    ```    
+    2. Необязательные:
+    ```bash
+        -m MIN, --min MIN - минимальная длина пауза для вырезки
+    ```  
+    ```bash
+        -t THRESH, --thresh THRESH - максимальный порог "тишины". Все сегменты, где звук громчке этого параметра будут сохранены, остальные - вырезаны
+    ``` 
+        
 ### Презентации
 [Первая итерация](https://github.com/moevm/mse_automatic_pause_cutter_from_video/blob/master/cutter.pptx)
