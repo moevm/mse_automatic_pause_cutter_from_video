@@ -1,6 +1,8 @@
 from pydub import AudioSegment
 from pydub.silence import detect_silence
 from moviepy.editor import VideoFileClip, concatenate_videoclips
+from moviepy.config import change_settings
+change_settings({"FFMPEG_BINARY": "ffmpeg"})
 
 class MovieCutterAPI:
     def __init__(self, source_file='test.mp4', output_file='test_cut.mp4', format='mp4', min_silence_len=100,
@@ -23,7 +25,6 @@ class MovieCutterAPI:
 
         clips = []
         last_start = 0
-
         # Выризаем каждый "тихий" участок
         # Для этого сохраняем промежуток от конца предыдущего тихого участка до начала следующего
         for i, chunk in enumerate(chunks):
@@ -33,4 +34,4 @@ class MovieCutterAPI:
         self.clip_cut = concatenate_videoclips(clips)
 
     def save_clip(self):
-        self.clip_cut.write_videofile(self.output_file)
+        self.clip_cut.write_videofile(self.output_file, codec="mpeg4", audio_codec="libfdk_aac")
