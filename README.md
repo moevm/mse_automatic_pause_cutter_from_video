@@ -34,4 +34,4 @@
     ``` 
         
 ### Презентации
-[Первая итерация](https://github.com/moevm/mse_automatic_pause_cutter_from_video/blob/master/cutter.pptx)
+[Первая итерация](https://github.com/moevm/mse_automatic_pause_cutter_from_video/blob/master/docs/cutter.pptx)
