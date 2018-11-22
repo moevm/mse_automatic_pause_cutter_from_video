@@ -1,9 +1,11 @@
 import ui_interface
 import sys
+import os
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDir, QUrl
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from PyQt5.QtMultimedia import QMediaContent
+from movie_cutter import MovieCutterAPI
 
 
 class GUI():
@@ -19,8 +21,32 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.button_select_input.clicked.connect(self.openFile)
+        self.button_convert.clicked.connect(self.convert)
+        self.input_file_name = None
 
     def openFile(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Открыть файл", QDir.homePath())
-        if fileName != '':
-             self.video_player_original.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
+        self.input_file_name, _ = QFileDialog.getOpenFileName(self, "Открыть файл", QDir.homePath())
+        if self.input_file_name != '':
+            print(self.input_file_name)
+            self.video_player_original.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(self.input_file_name)))
+
+    def convert(self):
+        if (self.input_file_name is None):
+            self.showErrorMessage("Не указан исходный файл")
+        else:
+            movie_cutter = MovieCutterAPI(source_file=self.input_file_name,
+                                          min_silence_len=self.input_min_length.value(),
+                                          silence_thresh=self.input_thresh.value())
+            movie_cutter.cut()
+            movie_cutter.save_clip()
+            self.video_player_result.mediaPlayer.setMedia(
+                QMediaContent(QUrl.fromLocalFile(os.path.dirname(__file__) + "/test_cut.mp4")))
+
+    def showErrorMessage(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Ошибкв")
+        msg.setInformativeText(message)
+        msg.setWindowTitle("Ошибка")
+        msg.show()
+        msg.exec()
