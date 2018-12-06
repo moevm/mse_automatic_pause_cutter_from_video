@@ -38,9 +38,10 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
                                           min_silence_len=self.input_min_length.value(),
                                           silence_thresh=self.input_thresh.value())
             movie_cutter.cut()
-            movie_cutter.save_clip()
+            output_file_name = movie_cutter.save_clip()
+            print(output_file_name)
             self.video_player_result.mediaPlayer.setMedia(
-                QMediaContent(QUrl.fromLocalFile(os.path.dirname(__file__) + "/test_cut.mp4")))
+                QMediaContent(QUrl.fromLocalFile(output_file_name)))
 
     def showErrorMessage(self, message):
         msg = QMessageBox()
