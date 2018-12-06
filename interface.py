@@ -28,7 +28,7 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
         self.input_file_name, _ = QFileDialog.getOpenFileName(self, "Открыть файл", QDir.homePath())
         if self.input_file_name != '':
             print(self.input_file_name)
-            self.video_player_original.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(self.input_file_name)))
+            self.video_player_original.openFile(self.input_file_name)
 
     def convert(self):
         if (self.input_file_name is None):
@@ -40,8 +40,7 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
             movie_cutter.cut()
             output_file_name = movie_cutter.save_clip()
             print(output_file_name)
-            self.video_player_result.mediaPlayer.setMedia(
-                QMediaContent(QUrl.fromLocalFile(output_file_name)))
+            self.video_player_result.openFile(output_file_name)
 
     def showErrorMessage(self, message):
         msg = QMessageBox()

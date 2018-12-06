@@ -52,5 +52,7 @@ class MovieCutterAPI:
 
     def save_clip(self):
         self.clip_cut.write_videofile(self.output_file, codec=self.codec, audio_codec="aac")
-        os.remove('./_tmp.mp4')
-        return self.output_file
+        try:
+            os.remove('./_tmp.mp4')
+        finally:
+            return self.output_file

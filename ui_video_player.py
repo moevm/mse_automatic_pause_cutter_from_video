@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtMultimediaWidgets import QVideoWidget
+import sys
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -8,7 +9,12 @@ class Ui_Form(object):
         self.button_play = QtWidgets.QPushButton(Form)
         self.button_play.setGeometry(QtCore.QRect(0, 330, 71, 32))
         self.button_play.setObjectName("button_play")
-        self.video = QVideoWidget(Form)
+        self.video = None
+        if sys.platform == "darwin": # for MacOS
+            from PyQt5.QtWidgets import QMacCocoaViewContainer
+            self.video = QMacCocoaViewContainer(0,parent=Form)
+        else:
+            self.video = QtWidgets.QFrame(parent=Form)
         self.video.setGeometry(QtCore.QRect(9, 0, 576, 324))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
