@@ -37,15 +37,18 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
             movie_cutter = MovieCutterAPI(source_file=self.input_file_name,
                                           min_silence_len=self.input_min_length.value(),
                                           silence_thresh=self.input_thresh.value())
-            movie_cutter.cut()
-            output_file_name = movie_cutter.save_clip()
-            print(output_file_name)
-            self.video_player_result.openFile(output_file_name)
+            try:
+                movie_cutter.cut()
+                output_file_name = movie_cutter.save_clip()
+                print(output_file_name)
+                self.video_player_result.openFile(output_file_name)
+            except Exception as ex:
+                self.showErrorMessage(str(ex))
 
     def showErrorMessage(self, message):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
-        msg.setText("Ошибкв")
+        msg.setText("Ошибка")
         msg.setInformativeText(message)
         msg.setWindowTitle("Ошибка")
         msg.show()

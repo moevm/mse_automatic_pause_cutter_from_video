@@ -78,7 +78,7 @@ class Ui_MainWindow(object):
         self.input_thresh = QtWidgets.QSpinBox(self.centralwidget)
         self.input_thresh.setGeometry(QtCore.QRect(30, 210, 171, 24))
         self.input_thresh.setMinimum(-99)
-        self.input_thresh.setProperty("value", -16)
+        self.input_thresh.setProperty("value", -40)
         self.input_thresh.setObjectName("input_thresh")
         self.button_convert = QtWidgets.QPushButton(self.centralwidget)
         self.button_convert.setGeometry(QtCore.QRect(10, 720, 181, 32))

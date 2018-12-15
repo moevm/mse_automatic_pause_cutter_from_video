@@ -39,6 +39,8 @@ class MovieCutterAPI:
 
         # Получаем массив времен начала и конца "тихих" участков
         chunks = detect_silence(audio, min_silence_len=self.min_silence_len, silence_thresh=self.silence_thresh)
+        if (not len(chunks) or len(chunks) == 1): raise Exception("Не найдено промежутков по заданным параметрам")
+        print(len(chunks))
 
         clips = []
         last_start = 0
