@@ -30,23 +30,34 @@ class MovieCutterAPI:
         self.clip = VideoFileClip(self.source_file)
         self.clip_cut = None
 
-    def cut(self):
-        if (self.format == "ts" or self.format == "mkv"):
-            subprocess.run(['ffmpeg', '-i', self.source_file, "_tmp.mp4"])
-            self.source_file = "_tmp.mp4"
-        # Выризаем аудио из видео для поиска "тихих" мест
-        audio = AudioSegment.from_file(self.source_file)
+        self.audio = None
+        self.audio_length = 0
 
-        # Получаем массив времен начала и конца "тихих" участков
-        chunks = detect_silence(audio, min_silence_len=self.min_silence_len, silence_thresh=self.silence_thresh)
-        if (not len(chunks) or len(chunks) == 1): raise Exception("Не найдено промежутков по заданным параметрам")
-        print(len(chunks))
+    def convert(self):
+        if (self.format == "ts" or self.format == "mkv"):
+            subprocess.run(
+                ['ffmpeg', '-i', self.source_file, os.path.dirname(os.path.realpath(__file__)) + "/tmp/_tmp.mp4"])
+            self.source_file = os.path.dirname(os.path.realpath(__file__)) + "/tmp/_tmp.mp4"
+        # Выризаем аудио из видео для поиска "тихих" мест
+        self.audio = AudioSegment.from_file(self.source_file)
+        self.audio_length = len(self.audio)
+
+    def detect_silence(self):
+        self.chunks = detect_silence(self.audio, min_silence_len=self.min_silence_len,
+                                     silence_thresh=self.silence_thresh)
+        if (not len(self.chunks) or len(self.chunks) == 1): raise Exception(
+            "Не найдено промежутков по заданным параметрам")
+
+    def cut(self):
+        self.convert()
+        # Получаем масси в времен начала и конца "тихих" участков
+        self.detect_silence()
 
         clips = []
         last_start = 0
         # Выризаем каждый "тихий" участок
         # Для этого сохраняем промежуток от конца предыдущего тихого участка до начала следующего
-        for i, chunk in enumerate(chunks):
+        for i, chunk in enumerate(self.chunks):
             clips.append(self.clip.subclip(last_start, float(chunk[0] / 1000)))
             last_start = float(chunk[1] / 1000)
 
@@ -55,6 +66,7 @@ class MovieCutterAPI:
     def save_clip(self):
         self.clip_cut.write_videofile(self.output_file, codec=self.codec, audio_codec="aac")
         try:
-            os.remove('./_tmp.mp4')
+            os.remove(os.path.dirname(os.path.realpath(__file__)) + '/tmp/_tmp.mp4')
+            os.remove(os.path.dirname(os.path.realpath(__file__)) + '/tmp/_tmp.wav')
         finally:
             return self.output_file

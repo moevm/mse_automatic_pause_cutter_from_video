@@ -29,6 +29,15 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
         if self.input_file_name != '':
             print(self.input_file_name)
             self.video_player_original.openFile(self.input_file_name)
+            movie_cutter = MovieCutterAPI(source_file=self.input_file_name,
+                                          min_silence_len=self.input_min_length.value(),
+                                          silence_thresh=self.input_thresh.value())
+            movie_cutter.convert()
+            movie_cutter.detect_silence()
+
+            self.graphicsView.createTimeline()
+
+            print(movie_cutter.audio_length)
 
     def convert(self):
         if (self.input_file_name is None):
