@@ -38,8 +38,8 @@ class MovieCutterAPI:
     def convert(self):
         if (not self.is_converted):
             if (self.convert_required()):
-                subprocess.run(['ffmpeg', '-i', self.source_file, "-y",  "_tmp.mp4"])
-                self.source_file = "_tmp.mp4"
+                subprocess.run(['ffmpeg', '-i', self.source_file, "-y", os.path.dirname(__file__) + "/tmp/_tmp.mp4"])
+                self.source_file = os.path.dirname(__file__) + "/tmp/_tmp.mp4"
         self.is_converted = True
 
     def cut(self):
@@ -64,6 +64,6 @@ class MovieCutterAPI:
     def save_clip(self):
         self.clip_cut.write_videofile(self.output_file, codec=self.codec, audio_codec="aac")
         try:
-            os.remove('./_tmp.mp4')
+            os.remove(os.path.dirname(__file__) + "/tmp/_tmp.mp4")
         finally:
             return self.output_file
