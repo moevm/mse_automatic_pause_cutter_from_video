@@ -45,3 +45,4 @@
 ### Презентации
 [Первая итерация](https://github.com/moevm/mse_automatic_pause_cutter_from_video/blob/master/docs/step_1.pptx)
 [Вторая итерация](https://github.com/moevm/mse_automatic_pause_cutter_from_video/blob/master/docs/step_2.pptx)
+[Релиз](https://github.com/moevm/mse_automatic_pause_cutter_from_video/blob/master/docs/step_3.pptx)
