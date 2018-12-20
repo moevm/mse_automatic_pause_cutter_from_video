@@ -8,7 +8,7 @@ import vlc
 import sys
 
 
-class VideoPlayer(QtWidgets.QDialog, ui_video_player.Ui_Form):
+class VideoPlayer(QtWidgets.QWidget, ui_video_player.Ui_Form):
     def __init__(self, parent):
         super().__init__(parent)
         self.setupUi(self)

@@ -6,7 +6,6 @@ from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QFileDialog
 from movie_cutter import MovieCutterAPI
 from message_box import MessageBox
-from about import About
 
 
 class GUI():
@@ -23,7 +22,6 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
         self.setupUi(self)
         self.action_2.triggered.connect(self.openFile)
         self.action_3.triggered.connect(self.saveFile)
-        self.action_4.triggered.connect(self.openAbout)
         self.actionGithub.triggered.connect(self.openGithub)
         self.button_convert.clicked.connect(self.convert)
         self.input_file_name = None
@@ -53,8 +51,6 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
     def openGithub(self):
         QDesktopServices.openUrl(QUrl("https://github.com/moevm/mse_automatic_pause_cutter_from_video"))
 
-    def openAbout(self):
-        About(self).show()
 
     def convert(self):
         if (self.input_file_name is None):
