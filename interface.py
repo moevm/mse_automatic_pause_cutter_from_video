@@ -28,10 +28,11 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
         self.message = None
         self.movie_cutter = None
 
-    def openFile(self):
-        self.input_file_name, _ = QFileDialog.getOpenFileName(self, "Открыть файл", QDir.homePath(),
-                                                              "MP4 (*.mp4);;MKV (*.mkv);;TS (*.ts)", "",
-                                                              QFileDialog.DontUseNativeDialog)
+    def openFile(self, test=False):
+        if (not test):
+            self.input_file_name, _ = QFileDialog.getOpenFileName(self, "Открыть файл", QDir.homePath(),
+                                                                  "MP4 (*.mp4);;MKV (*.mkv);;TS (*.ts)", "",
+                                                                  QFileDialog.DontUseNativeDialog)
         if self.input_file_name != '':
             self.movie_cutter = MovieCutterAPI(source_file=self.input_file_name,
                                                min_silence_len=self.input_min_length.value(),
@@ -50,7 +51,6 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
 
     def openGithub(self):
         QDesktopServices.openUrl(QUrl("https://github.com/moevm/mse_automatic_pause_cutter_from_video"))
-
 
     def convert(self):
         if (self.input_file_name is None):
