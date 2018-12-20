@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPalette, QColor
+import numpy as np
 import ui_video_player
 import vlc
 import sys
@@ -69,7 +70,21 @@ class VideoPlayer(QtWidgets.QWidget, ui_video_player.Ui_Form):
         self.play()
 
     def updateUI(self):
+        print(self.mediaPlayer.get_position())
         self.time_slider.setSliderPosition(self.mediaPlayer.get_position() * 100)
+        seconds_elapsed = (int(np.floor(self.mediaPlayer.get_position() * self.mediaPlayer.get_length() / 1000)))
+        num_minutes_passed = int(seconds_elapsed / 60)
+        num_seconds_passed = int(seconds_elapsed % 60)
+        seconds_left = int(self.mediaPlayer.get_length() / 1000) - seconds_elapsed
+        num_minutes_left = int(seconds_left/ 60)
+        num_seconds_left = int(seconds_left % 60)
+
+        num_minutes_passed_string = str(num_minutes_passed) if num_minutes_passed >= 10 else '0' + str(num_minutes_passed)
+        num_seconds_passed_string = str(num_seconds_passed) if num_seconds_passed >= 10 else '0' + str(num_seconds_passed)
+        num_seconds_left_string = str(num_seconds_left) if num_seconds_left >= 10 else '0' + str(num_seconds_left)
+        num_minutes_left_string = str(num_minutes_left) if num_minutes_left >= 10 else '0' + str(num_minutes_left)
+        self.label_time_passed.setText(num_minutes_passed_string + ':' + num_seconds_passed_string)
+        self.label_time_left.setText('-' + num_minutes_left_string + ':' + num_seconds_left_string)
         if not self.mediaPlayer.is_playing():
             self.timer.stop()
             if not self.isPaused: self.stop()

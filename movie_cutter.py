@@ -30,17 +30,26 @@ class MovieCutterAPI:
         self.clip = VideoFileClip(self.source_file)
         self.clip_cut = None
 
+        self.is_converted = False
+
+    def convert_required(self):
+        return self.format == "ts" or self.format == "mkv"
+
+    def convert(self):
+        if (not self.is_converted):
+            if (self.convert_required()):
+                subprocess.run(['ffmpeg', '-i', self.source_file, "-y",  "_tmp.mp4"])
+                self.source_file = "_tmp.mp4"
+        self.is_converted = True
+
     def cut(self):
-        if (self.format == "ts" or self.format == "mkv"):
-            subprocess.run(['ffmpeg', '-i', self.source_file, "_tmp.mp4"])
-            self.source_file = "_tmp.mp4"
+        self.convert()
         # Выризаем аудио из видео для поиска "тихих" мест
         audio = AudioSegment.from_file(self.source_file)
 
         # Получаем массив времен начала и конца "тихих" участков
         chunks = detect_silence(audio, min_silence_len=self.min_silence_len, silence_thresh=self.silence_thresh)
         if (not len(chunks) or len(chunks) == 1): raise Exception("Не найдено промежутков по заданным параметрам")
-        print(len(chunks))
 
         clips = []
         last_start = 0
