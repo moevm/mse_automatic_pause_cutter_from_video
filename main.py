@@ -14,7 +14,7 @@ if __name__ == '__main__':
                         default=100)
     parser.add_argument('-t', '--thresh', type=float,
                         help='maximum threshold (in db) of "silence". Everything bellow this level will be considered as silence',
-                        default=-16)
+                        default=-40)
 
     args = parser.parse_args()
     if (args.gui):

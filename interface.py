@@ -59,6 +59,7 @@ class GUI_Window(QtWidgets.QMainWindow, ui_interface.Ui_MainWindow):
             self.movie_cutter.min_silence_len = self.input_min_length.value()
             self.movie_cutter.silence_thresh = self.input_thresh.value()
             try:
+                self.showMessage("info", 'Преобразование исходного файла может занять несколько минут')
                 self.movie_cutter.cut()
                 output_file_name = self.movie_cutter.save_clip()
                 self.video_player_result.openFile(output_file_name)
